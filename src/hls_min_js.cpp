@@ -17,7 +17,7 @@
 //          Jiashun Zhu(zhujiashun2010@gmail.com)
 
 #include <pthread.h>
-#include "butil/logging.h"
+#include "glog/logging.h"
 #include "butil/memory/singleton_on_pthread_once.h"
 #include "brpc/policy/gzip_compress.h"
 #include "hls_min_js.h"

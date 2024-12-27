@@ -22,7 +22,7 @@
 #include "rtmp_forward_service.h"
 #include "util.h"
 #include <bthread/bthread.h>
-#include "butil/logging.h"
+#include "glog/logging.h"
 
 DEFINE_string(streams, "", "list of streams, separated with newline/space/colon");
 DEFINE_int32(retry_interval_ms, 1000, "Milliseconds between consecutive retries");

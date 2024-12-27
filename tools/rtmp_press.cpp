@@ -27,7 +27,7 @@
 #include "brpc/channel.h"
 #include "brpc/adaptive_connection_type.h"
 #include "bthread/bthread.h"
-#include "butil/logging.h"
+#include "glog/logging.h"
 #include "butil/fast_rand.h"
 #include "butil/containers/flat_map.h"
 #include "rtmp_forward_service.h"

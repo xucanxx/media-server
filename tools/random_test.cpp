@@ -19,7 +19,7 @@
 #include "brpc/server.h"
 #include "brpc/socket.h"
 #include "brpc/adaptive_connection_type.h"
-#include "butil/logging.h"
+#include "glog/logging.h"
 #include <vector>
 #include <bthread/bthread.h>
 #include <random>

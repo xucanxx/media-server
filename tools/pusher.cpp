@@ -23,7 +23,7 @@
 #include "frame_queue.h"
 #include "util.h"
 #include <bthread/bthread.h>
-#include "butil/logging.h"
+#include "glog/logging.h"
 
 DEFINE_string(streams, "", "list of streams, separated with newline/space/colon");
 DEFINE_bool(pull_share_conn, true, "Multiple RTMP streams over one connection");
@@ -187,7 +187,7 @@ void Player::flush() {
 }
 
 int main(int argc, char* argv[]) {
-    GFLAGS_NS::ParseCommandLineFlags(&argc, &argv, true);
+    GFLAGS_NAMESPACE::ParseCommandLineFlags(&argc, &argv, true);
 
     butil::StringPiece host;
     butil::StringPiece port;

@@ -21,7 +21,7 @@
 #include "butil/third_party/murmurhash3/murmurhash3.h"
 #include "event_log_manager.h"
 #include "rtmp_forward_service.h"
-
+#include <glog/logging.h>
 DECLARE_int32(dump_stats_interval);
 DECLARE_int32(port);
 
@@ -85,7 +85,7 @@ struct EventLogManager::EventLog : public DelayedLogBase {
     butil::EndPoint end_point;
 
     void print_and_destroy() {
-        print_to(LOG_STREAM(INFO));
+        print_to(LOG(INFO));
         delete this;
     }
 

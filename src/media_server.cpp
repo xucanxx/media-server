@@ -18,7 +18,7 @@
 
 #include "brpc/server.h"
 #include "brpc/channel.h"
-#include "butil/logging.h"
+#include "glog/logging.h"
 #include "rtmp_forward_service.h"
 #include "http_streaming_service.h"
 

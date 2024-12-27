@@ -2424,7 +2424,7 @@ butil::Status RtmpForwardService::add_player(const std::string& key,
     rc = new_puller->Init(sub_stream_creator, key, vhost, app, stream_name, new_queries, local_publisher);
     if (rc != 0) {
         LOG(ERROR) << "Fail to init puller=" << new_puller.get() << " for "
-                   << conn_req.tcurl() << '/' << stream_name << noflush;
+                   << conn_req.tcurl() << '/' << stream_name ;
         if (!new_queries.empty()) {
             LOG(ERROR) << '?' << new_queries;
         } else {
