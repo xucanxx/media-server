@@ -1,6 +1,6 @@
 # media-server
 
-media-server 是一个基于 [brpc](https://github.com/brpc/brpc) 的直播流媒体服务器，应用于百度云的 [直播流服务](https://cloud.baidu.com/product/lss.html) of Baidu Cloud.
+media-server 是一个基于 [brpc](https://github.com/brpc/brpc) 的直播流媒体服务器，应用于百度云的 [直播流服务](https://cloud.baidu.com/product/lss.html) （这个是使用的glog版本）
 
 ## 主要特性
 
