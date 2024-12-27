@@ -56,7 +56,7 @@ DECLARE_int32(defer_close_second);
 }
 
 int main(int argc, char* argv[]) {
-    GFLAGS_NS::ParseCommandLineFlags(&argc, &argv, true);
+    GFLAGS_NAMESPACE::ParseCommandLineFlags(&argc, &argv, true);
 
     // We create ad-hoc http channels for pulling TS, make sure the connection
     // is not closed immediately for performance considerations.

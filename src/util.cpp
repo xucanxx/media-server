@@ -235,8 +235,8 @@ void RtmpSubStreamCreator::LaunchSubStream(
 
 void build_uri_without_queries(const brpc::URI& uri, std::ostream& os) {
     if (!uri.host().empty()) {
-        if (!uri.schema().empty()) {
-            os << uri.schema() << "://";
+        if (!uri.scheme().empty()) {
+            os << uri.scheme() << "://";
         } else {
             os << "http://";
         }

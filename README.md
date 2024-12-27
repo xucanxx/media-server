@@ -1,92 +1,92 @@
 # media-server
 
-media-server is a live streaming server based on [brpc](https://github.com/brpc/brpc) used in [Live Streaming Service](https://cloud.baidu.com/product/lss.html) of Baidu Cloud.
+media-server 是一个基于 [brpc](https://github.com/brpc/brpc) 的直播流媒体服务器，应用于百度云的 [直播流服务](https://cloud.baidu.com/product/lss.html) of Baidu Cloud.
 
-## Main features
+## 主要特性
 
-* Support [origin server](docs/cn/origin_server.md) which streams can be pushed to and played from
-* Support [edge server](docs/cn/edge_server.md) to proxy push/pull requests
-* Support [rtmp](https://www.adobe.com/devnet/rtmp.html)/[flv](https://en.wikipedia.org/wiki/Flash_Video)/[hls](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) play
-* Support rtmp push
-* Streams are uniquely determined by [vhost/app/stream_name](docs/cn/vhost_app_stream.md)
-* Configurable push/pull [retry policy](docs/cn/retry_policy.md)
-* Support [simplified rtmp protocol](docs/cn/simplified_rtmp.md) that eliminates rtmp handshake process
-* Support [visual interface](docs/cn/http_service.md)(via http) to check the status of the current server/streams
-* Support [low latency hls](docs/cn/low_latency_hls.md)(about one second slower than rtmp/flv)
-* Support [video/audio only](docs/cn/av_only.md) live streaming
-* Configurable [frame queue buffer](docs/cn/frame_queue.md) length(typically several seconds)
-* Support [keep pulling](docs/cn/keep_pulling.md) streams for several seconds when no players are watching
-* Support dumping [stream status](docs/cn/stream_status.md) into log for monitoring purpose
-* Support different [re-publish policy](docs/cn/republish_policy.md)
-* Support https
-* All features brought by [brpc](https://github.com/brpc/brpc)
+* 支持 [origin server](docs/cn/origin_server.md),可以推送和播放流媒体
+* 支持 [edge server](docs/cn/edge_server.md) 用于代理推送/拉取请求
+* 支持 [rtmp](https://www.adobe.com/devnet/rtmp.html)/[flv](https://en.wikipedia.org/wiki/Flash_Video)/[hls](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) 播放
+* 支持 rtmp 推流
+* 流通过 [vhost/app/stream_name](docs/cn/vhost_app_stream.md)唯一确定
+* 可配置的推拉流 [retry policy](docs/cn/retry_policy.md)
+* 支持 [simplified rtmp protocol](docs/cn/simplified_rtmp.md) 简化了 rtmp 握手过程
+* 支持 [visual interface](docs/cn/http_service.md)（通过 HTTP）查看当前服务器/流媒体状态
+* 支持 [low latency hls](docs/cn/low_latency_hls.md)（比 rtmp/flv 慢约一秒）
+* 支持 [video/audio only](docs/cn/av_only.md) 直播流
+* 可配置的 [frame queue buffer](docs/cn/frame_queue.md) 长度（通常为几秒）
+* 支持 [keep pulling](docs/cn/keep_pulling.md) streams for several seconds 在没有用户观看时
+* 支持将 [stream status](docs/cn/stream_status.md) 输出到日志，用于监控
+* 支持不同的 [re-publish policy](docs/cn/republish_policy.md)
+* 支持 https
+* 支持  [brpc](https://github.com/brpc/brpc) 带来的所有功能
 
-## Getting Started
+## 快速开始
 
-Supported operating system: Linux, MacOSX.
+支持的操作系统：Linux，MacOSX。
 
-* Install [brpc](https://github.com/brpc/brpc/blob/master/docs/cn/getting_started.md)  which is the main dependency of media-server
-* Compile media-server with cmake:
+* 安装 [brpc](https://github.com/brpc/brpc/blob/master/docs/cn/getting_started.md) ，这是 media-server 的主要依赖项。
+* 使用 cmake 编译 media-server:
 ```shell
 mkdir build && cd build && cmake .. && make -sj4
 ```
-* Run media-server as origin server with minimum configuration(the default port is 8079):
+* 以源服务器模式运行 media-server，使用最小配置（默认端口为 8079）:
 ```shell
 ./output/bin/media_server
 ```
-Then you can push/play stream from it.
+然后，你可以推送/播放流。
 
-### Main options
+### 主要选项
 
-Please run 
+请运行
 ```
 ./output/bin/media_server --help
 ```
-to get all configurations in detail.
+以获取详细的配置说明。
 
 * -proxy_to
-When not specified or empty, media-server runs in origin mode, which aggregates push(such as OBS, ffmpeg) and accepts play(such as cyberplayer, ffplay) requests.
+当未指定或为空时，media-server 运行在源服务器模式，聚合推流（如 OBS、ffmpeg）并接受播放请求（如 cyberplayer、ffplay）。
 
 * -proxy_lb
-When -proxy_to is a naming service(such as http://...), you need to specify load balancing algorithm. The options are rr, random, la, c_murmurhash and c_md5. Read [client load balancing](https://github.com/brpc/brpc/blob/master/docs/en/client.md#user-content-load-balancer) for details.
+当 -proxy_to 是一个命名服务（例如 http://...）时，需要指定负载均衡算法。可选的算法有 rr、random、la、c_murmurhash 和 c_md5。详情请参见[客户端负载均衡](https://github.com/brpc/brpc/blob/master/docs/en/client.md#user-content-load-balancer) for details.
 
 * -port
-Specifies the service port of media-server. Brpc is characterized by supporting all protocols on the same port, so this port can also be used for accessing the built-in service via http. Only ports in the range of 8000-9000 can be accessed by browsers, which means if the service port is external, be sure to configure -internal_port to prevent built-in service from leaking detailed service information.
+指定 media-server 的服务端口。brpc 的特点是支持在同一端口上使用所有协议，因此该端口也可用于通过 HTTP 访问内置服务。只有在 8000-9000 范围内的端口才能通过浏览器访问，这意味着如果服务端口是外部端口，则需要配置 -internal_port 以防止内置服务泄露详细的服务信息
 
 * -internal_port
-This port can be configured as a port that can only be accessed on the internal network. In this case, the -port port no longer provides built-in services, but will only be accessible through this port.
+此端口可以配置为只能在内部网络上访问的端口。在这种情况下，-port 端口不再提供内置服务，仅通过此端口访问。
 
 * -retry_interval_ms
-When media-server runs in edge mode, push and pull requests to upstreams will be retried when error happens until clients no longer need. This option specifies the minimum interval for continuous retry, which is 1 second by default.
+当 media-server 以边缘模式运行时，推拉请求到上游服务出现错误时，将会重试，直到客户端不再需要此流。此选项指定连续重试的最小时间间隔，默认为 1 秒。
 
 * -share_play_connection
-When set to true, multiple streams connected to the same server will reuse the same rtmp connection in play.
+设置为 true 时，多个流连接到同一服务器时将复用相同的 rtmp 播放连接。
 
 * -share_publish_connection
-When set to true, multiple streams connected to the same server will reuse the same rtmp connection in publish.
+设置为 true 时，多个流连接到同一服务器时将复用相同的 rtmp 推流连接。
 
 * -timeout_ms
-Timeout period for creating a stream when media-server runs in edge mode. The default value is 1000ms.
+创建流的超时时间，当 media-server 以边缘模式运行时。默认值为 1000ms。
 
 * -server_idle_timeout
-Connections without data transmission for so many seconds will be closed. The default value is -1(turned off).
+没有数据传输的连接将在此超时后关闭，默认值为 -1（关闭此功能）。
 
 * -cdn_merge_to
-When this option is set, media-server starts two ports, one for external service request and the other for the aggregating request. Usually the aggregating server will be found using consistent hashing, which is used widely in cache service. This option is often used in cdn nodes.
+当配置此选项时，media-server 启动两个端口，一个用于外部服务请求，另一个用于聚合请求。通常，聚合服务器通过一致性哈希方式找到，用于缓存服务中广泛使用。此选项常用于 CDN 节点。
 
 * -cdn_merge_lb
-The load balancing algorithm. Read the explanation written below -proxy_lb.
+负载均衡算法，详见 -proxy_lb 选项的说明。
 
 * -flagfile
-media-server uses gflags options, which is specified by default in the command line and can also in file format during online deployment by using -flagfile.
+media-server 使用 gflags 选项，可以在命令行中指定，也可以在在线部署时使用 -flagfile 配置文件格式。
 
 ## Examples
 
-* Run media-server as [origin server](docs/cn/origin_server.md) and [edge server](docs/cn/edge_server.md).
+* 以 [origin server](docs/cn/origin_server.md)  和 [edge server](docs/cn/edge_server.md)模式运行 media-server。
 
-## Other docs
+## 其他文档
 
-* Tools
+* 工具
     * [puller](docs/cn/puller.md)
     * [pusher](docs/cn/pusher.md)
     * [random_test](docs/cn/random_test.md)
